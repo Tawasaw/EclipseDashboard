@@ -1,0 +1,61 @@
+name: Build desktop installers
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  desktop:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: macOS universal
+            runner: macos-latest
+            args: --target universal-apple-darwin --bundles dmg
+            package: src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg
+            artifact: EclipseDashboard-macOS-universal
+          - name: Windows x64
+            runner: windows-latest
+            args: --bundles nsis
+            package: src-tauri/target/release/bundle/nsis/*.exe
+            artifact: EclipseDashboard-Windows-x64
+          - name: Linux x64
+            runner: ubuntu-22.04
+            args: --bundles deb
+            package: src-tauri/target/release/bundle/deb/*.deb
+            artifact: EclipseDashboard-Linux-x64
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install both macOS compilation targets
+        if: runner.os == 'macOS'
+        run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - run: npm ci
+      - run: cargo test --locked --manifest-path src-tauri/Cargo.toml
+      - run: npm run build -- ${{ matrix.args }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.package }}
+          if-no-files-found: error

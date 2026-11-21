@@ -8,6 +8,12 @@ A desktop telemetry dashboard for FTC students using DiagServer. Join the robot 
 
 **Camera** shows the Limelight MJPEG stream on the advertised preview port (legacy default 5800). It can also be displayed beside a graph. Initialize an OpMode that starts the Limelight tunnels. Raw recording uses the advertised raw port (legacy default 5802) and requires FFmpeg on the desktop app’s PATH. CSVs are automatic. Each run produces a new timestamped CSV in Documents/EclipseDashboard/Runs. Raw clips share its filename prefix. **Open runs folder** opens that directory.
 
+## Robot diagnostics in action
+
+This recording from the original browser dashboard shows the Limelight feed alongside live position, velocity, and shooter telemetry.
+
+![Robot camera feed and telemetry plots updating during a run](docs/diagnostics-demo.gif)
+
 ## Development and packaging
 
 Install Rust, Node.js, and the Tauri 2 platform build prerequisites (Xcode command line tools on macOS, MSVC build tools and WebView2 on Windows, WebKitGTK 4.1 and GTK development packages on Linux).

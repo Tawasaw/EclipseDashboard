@@ -1,4 +1,4 @@
-# EclipseDashboard 0.2.0
+# EclipseDashboard 0.2.1
 
 EclipseDashboard is a lightweight desktop diagnostics app built by FTC Team 30618 Eclipse. Connect to a robot running [DiagServer 0.3.0](https://github.com/Tawasaw/DiagServer) to load its graphs and tuning controls automatically.
 
@@ -26,10 +26,10 @@ EclipseDashboard is a lightweight desktop diagnostics app built by FTC Team 3061
 
 | View | What you can do |
 | --- | --- |
-| **Graphs** | Choose a graph to see the last 15 seconds of telemetry. For a shooter test, plot target and measured speed together when the robot groups those signals. |
+| **Graphs** | See the last 15 seconds of telemetry for each graph. Click a title to collapse the graph, drag its handle to reorder it, or click a size icon to resize it. Click a legend entry to hide or restore an individual curve. |
 | **All signals** | Search by field name to see its latest value and unit, including fields omitted from graphs. |
 | **Tune** | Enter a value within the displayed range and click **Apply**. For example, the BIOBUZZ LED test registers `diag_ledcolor` with a range of 0 to 1. |
-| **Camera** | Open the Limelight preview or select **Show camera alongside graph** in the Graphs view to watch the robot and its telemetry together. |
+| **Camera** | Watch the Limelight preview in the same scrolling workspace as the graphs and tuning controls. |
 
 This recording shows a practice run with the Limelight feed, robot position, and shooter telemetry.
 

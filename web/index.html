@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Eclipse Dashboard</title>
-<link rel="stylesheet" href="style.css"><header><strong><span class="orbit">◒</span> Eclipse Dashboard</strong><span id="status" role="status">Offline</span></header>
+<link rel="stylesheet" href="style.css">
 <main><section id="setup"><h1>Connect to your robot</h1><p>Join the robot’s Wi-Fi and initialize a diagnostics OpMode on the Driver Station.</p>
 <form id="connection"><label>Robot IP address<input id="host" list="hosts" value="192.168.43.1" required><datalist id="hosts"><option>192.168.43.1</option><option>192.168.49.1</option></datalist></label><label>Port<input id="port" type="number" min="1" max="65535" value="5599" required></label><button class="primary">Connect</button></form>
 <p id="failure" role="alert"></p></section>
-<section id="live" hidden><div class="heading"><div><small id="address"></small><h1>Robot dashboard</h1></div><button id="disconnect">Disconnect</button></div>
-<nav aria-label="Dashboard views"><button data-tab="graphs">Graphs</button><button data-tab="signals">All signals</button><button data-tab="tune">Tune</button><button data-tab="camera">Camera</button></nav>
-<section id="graphs"><div class="toolbar"><label>Graph<select id="group"></select></label><label class="upload">Load layout…<input id="file" type="file" accept=".json,application/json"></label><button id="resetLayout" hidden>Auto layout</button></div>
-<button id="dockCamera" type="button">Show camera alongside graph</button><div id="workspace"><div class="card"><h2 id="chartTitle">Waiting for telemetry</h2><div id="legend"></div><canvas id="plot" aria-label="Telemetry history"></canvas></div><div id="dock" hidden></div></div><p id="layoutInfo"></p></section>
-<section id="signals" hidden><label>Find a signal<input id="search" type="search" placeholder="Field name"></label><table><thead><tr><th>Signal</th><th>Value</th><th>Unit</th></tr></thead><tbody id="values"></tbody></table></section>
-<section id="tune" hidden><h2>Robot settings</h2><div id="settings"></div></section>
-<section id="camera" hidden><div class="heading"><h2>Limelight preview</h2><button id="retry">Retry preview</button></div><div class="preview"><img id="video" alt="Live Limelight preview" hidden><span id="cameraMsg">Waiting for camera stream</span></div><p id="vision"></p><button id="record">Record raw video</button> <span id="recording"></span></section>
+<section id="live" hidden><div class="session-bar"><strong id="address"></strong><span id="status" role="status"></span><button id="disconnect">Disconnect</button></div>
+<div class="session-panels"><details id="tune" open><summary>Tune</summary><div id="settings"></div></details>
+<section id="camera"><div class="heading"><h2>Limelight preview</h2><button id="retry">Retry preview</button></div><div class="preview" hidden><img id="video" alt="Live Limelight preview" hidden><span id="cameraMsg">Waiting for camera stream</span></div><p id="vision"></p><button id="record">Record raw video</button> <span id="recording"></span></section>
+</div>
+<section id="graphs"><div class="toolbar"><h2>Graphs</h2><label class="upload">Load layout…<input id="file" type="file" accept=".json,application/json"></label><button id="resetLayout" hidden>Reset layout</button></div>
+<p id="layoutInfo" hidden></p><p id="emptyGraphs">Waiting for telemetry</p><div id="chartGrid"></div></section>
+<details id="signals"><summary>All signals</summary><label>Find a signal<input id="search" type="search" placeholder="Field name"></label><table><thead><tr><th>Signal</th><th>Value</th><th>Unit</th></tr></thead><tbody id="values"></tbody></table></details>
 <footer><span id="csv">Waiting for a run</span><button id="logs">Open runs folder</button></footer></section><p id="notice" role="status"></p></main><script src="app.js"></script></html>

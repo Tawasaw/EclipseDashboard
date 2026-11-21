@@ -55,6 +55,7 @@ struct Descriptor {
 #[derive(Default, Serialize)]
 struct Frame {
     status: String,
+    requested_rate_hz: Option<u32>,
     fields: Vec<Vec<String>>,
     controls: Vec<Vec<String>>,
     graphs: Option<Vec<Graph>>,
@@ -226,7 +227,7 @@ fn stream(shared: &Shared, id: u64, addr: SocketAddr, dir: PathBuf) -> Result<()
                     .collect(),
                 Some(d.graphs),
                 d.cameras.into_iter().find(|c| c.kind == "limelight"),
-                d.max_rate_hz.min(20),
+                d.max_rate_hz,
             )
         } else if reply == "ERR unknown" {
             sock.write_all(b"FIELDS\nLISTCFG\n").map_err(ioerr)?;
@@ -257,6 +258,7 @@ fn stream(shared: &Shared, id: u64, addr: SocketAddr, dir: PathBuf) -> Result<()
         s.frame.controls = controls;
         s.frame.graphs = graphs;
         s.frame.camera = camera;
+        s.frame.requested_rate_hz = Some(rate);
         s.frame.status = "Waiting for telemetry".into();
     }
     writeln!(sock, "SUB ALL rate={rate}").map_err(ioerr)?;
@@ -463,7 +465,7 @@ mod tests {
     }
 
     #[test]
-    fn reads_howdy_layout_and_limits_subscription_rate() {
+    fn requests_the_howdy_advertised_rate() {
         check_session(true);
     }
 
@@ -476,7 +478,7 @@ mod tests {
             assert_eq!(line(&mut reader).unwrap(), "HOWDY");
             if howdy {
                 let descriptor = serde_json::json!({
-                    "protocol_version":2, "max_rate_hz":10,
+                    "protocol_version":2, "max_rate_hz":50,
                     "fields":[{"name":"run_id","type":"long","unit":"s"},{"name":"servo_position","type":"double","unit":""}],
                     "graphs":[{"id":"servo","title":"Servo command","series":["servo_position"]}],
                     "controls":[{"name":"servo","type":"double","min":0,"max":1}],
@@ -496,7 +498,7 @@ mod tests {
             assert_eq!(
                 line(&mut reader).unwrap(),
                 if howdy {
-                    "SUB ALL rate=10"
+                    "SUB ALL rate=50"
                 } else {
                     "SUB ALL rate=20"
                 }
@@ -515,6 +517,7 @@ mod tests {
             assert_eq!(s.frame.graphs.as_ref().unwrap()[0].title, "Servo command");
             assert_eq!(s.frame.camera.as_ref().unwrap().record_port, 6002);
         }
+        assert_eq!(s.frame.requested_rate_hz, Some(if howdy { 50 } else { 20 }));
         assert_eq!(s.frame.rows.len(), 2);
         assert_eq!(s.frame.controls[0][0], "servo");
         assert_eq!(fs::read_dir(&dir).unwrap().count(), 2);

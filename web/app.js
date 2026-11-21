@@ -30,7 +30,7 @@ $('connection').onsubmit=async e=>{
  lastSample=0;found=new Set();settingsKey='';recordOn=false;runPath='';
  charts.clear();$('chartGrid').replaceChildren();$('emptyGraphs').hidden=false;$('resetLayout').hidden=true;$('layoutInfo').hidden=true;$('layoutInfo').textContent='';
  $('setup').hidden=true;$('live').hidden=false;$('address').textContent=host+' · port '+port;
- $('status').textContent='Connecting';$('csv').textContent='Waiting for a run';notify('');$('signals').open=false;window.scrollTo(0,0);
+ $('status').textContent='Connecting';$('requestedRate').hidden=true;$('csv').textContent='Waiting for a run';notify('');$('signals').open=false;window.scrollTo(0,0);
  robotGraphs=null;cameraPort=null;$('video').hidden=true;showCamera();showSettings();$('retry').disabled=true;$('record').disabled=true;
  await poll(id);
  }catch(err){if(id===session)setup(String(err));}
@@ -248,6 +248,9 @@ async function poll(id){
  if(f.status.startsWith('Connection ended')){setup(f.status+'. Check robot Wi-Fi and initialize the diagnostics OpMode, then reconnect.');return;}
  const newCatalog = fields.length === 0 && f.fields.length > 0;
  fields=f.fields;controls=f.controls;showSettings();
+ const rate = $('requestedRate');
+ rate.hidden = f.requested_rate_hz == null;
+ if (!rate.hidden) rate.textContent = 'DiagRate ' + f.requested_rate_hz + ' Hz';
  if(fields.length&&!remembered){robotGraphs=f.graphs;
  cameraPort=f.camera?.preview_port;
  $('retry').disabled=!cameraPort;$('record').disabled=!f.camera?.record_port;

@@ -3,7 +3,7 @@
 <main><section id="setup"><h1>Connect to your robot</h1><p>Join the robot’s Wi-Fi and initialize a diagnostics OpMode on the Driver Station.</p>
 <form id="connection"><label>Robot IP address<input id="host" list="hosts" value="192.168.43.1" required><datalist id="hosts"><option>192.168.43.1</option><option>192.168.49.1</option></datalist></label><label>Port<input id="port" type="number" min="1" max="65535" value="5599" required></label><button class="primary">Connect</button></form>
 <p id="failure" role="alert"></p></section>
-<section id="live" hidden><div class="session-bar"><strong id="address"></strong><span id="status" role="status"></span><button id="disconnect">Disconnect</button></div>
+<section id="live" hidden><div class="session-bar"><strong id="address"></strong><span id="status" role="status"></span><span id="requestedRate" hidden></span><button id="disconnect">Disconnect</button></div>
 <div class="session-panels"><details id="tune" open><summary>Tune</summary><div id="settings"></div></details>
 <section id="camera"><div class="heading"><h2>Limelight preview</h2><button id="retry">Retry preview</button></div><div class="preview" hidden><img id="video" alt="Live Limelight preview" hidden><span id="cameraMsg">Waiting for camera stream</span></div><p id="vision"></p><button id="record">Record raw video</button> <span id="recording"></span></section>
 </div>

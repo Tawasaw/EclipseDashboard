@@ -1,1 +1,1 @@
-{"name":"eclipse-dashboard","version":"0.2.0","private":true,"scripts":{"dev":"tauri dev","build":"tauri build","tauri:dev":"tauri dev","tauri:build":"tauri build"},"devDependencies":{"@tauri-apps/cli":"2.11.3"}}
+{"name":"eclipse-dashboard","version":"0.2.0","private":true,"scripts":{"tauri":"tauri","dev":"tauri dev","build":"tauri build","tauri:dev":"tauri dev","tauri:build":"tauri build"},"devDependencies":{"@tauri-apps/cli":"2.11.3"}}

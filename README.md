@@ -1,4 +1,4 @@
-# EclipseDashboard 0.2.1
+# EclipseDashboard 0.2.2
 
 EclipseDashboard is a lightweight desktop diagnostics app built by FTC Team 30618 Eclipse. Connect to a robot running [DiagServer 0.3.0](https://github.com/Tawasaw/DiagServer) to load its graphs and tuning controls automatically.
 

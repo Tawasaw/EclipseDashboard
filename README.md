@@ -31,9 +31,9 @@ EclipseDashboard is a lightweight desktop diagnostics app built by FTC Team 3061
 | **Tune** | Enter a value within the displayed range and click **Apply**. For example, the BIOBUZZ LED test registers `diag_ledcolor` with a range of 0 to 1. |
 | **Camera** | Watch the Limelight preview in the same scrolling workspace as the graphs and tuning controls. |
 
-This recording shows a practice run with the Limelight feed, robot position, and shooter telemetry.
+This recording shows live motor benchmark telemetry, including power, shaft speed, current, and voltage.
 
-![Limelight video and telemetry plots updating during a robot run](docs/diagnostics-demo.gif)
+![Live telemetry plots updating during a motor benchmark](docs/diagnostics-demo.gif)
 
 ## What the robot needs
 

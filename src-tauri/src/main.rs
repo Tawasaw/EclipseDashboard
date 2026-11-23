@@ -435,6 +435,38 @@ fn open_runs(app: tauri::AppHandle) -> Result<()> {
     Command::new(program).arg(dir).spawn().map_err(ioerr)?;
     Ok(())
 }
+#[tauri::command]
+fn open_limelight_web_ui(state: State<Shared>) -> Result<()> {
+    let ip = {
+        let s = state.lock().unwrap();
+        let address = s.address.ok_or("Robot disconnected")?;
+        if !s
+            .frame
+            .camera
+            .as_ref()
+            .is_some_and(|camera| camera.preview_port != 0)
+        {
+            return Err("No Limelight camera available".into());
+        }
+        address.ip()
+    };
+    // DiagServer's Limelight tunnel uses a fixed port for the web UI.
+    let url = format!("http://{ip}:5801/");
+    let mut browser = if cfg!(windows) {
+        let mut command = Command::new("rundll32.exe");
+        command.arg("url.dll,FileProtocolHandler");
+        command
+    } else if cfg!(target_os = "macos") {
+        Command::new("open")
+    } else {
+        Command::new("xdg-open")
+    };
+    browser
+        .arg(url)
+        .spawn()
+        .map_err(|e| format!("Could not open the Limelight web UI: {e}"))?;
+    Ok(())
+}
 fn main() {
     tauri::Builder::default()
         .manage(Shared::default())
@@ -449,7 +481,8 @@ fn main() {
             poll,
             apply_setting,
             record,
-            open_runs
+            open_runs,
+            open_limelight_web_ui
         ])
         .run(tauri::generate_context!())
         .expect("desktop runtime");

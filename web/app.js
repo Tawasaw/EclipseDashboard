@@ -234,12 +234,14 @@ function showSettings(){
 function showCamera(){
  document.querySelector('.preview').hidden = !cameraPort;
  $('camera').classList.toggle('unavailable', !cameraPort);
+ $('openLimelight').hidden = !cameraPort;
  const ready=$('video').naturalWidth>0;$('video').hidden=!ready;$('cameraMsg').hidden=ready;
  $('cameraMsg').textContent='Waiting for camera stream · initialize a Limelight-enabled OpMode';
  const valid=value('ll_valid'),age=value('ll_staleness_ms');
  $('vision').textContent=[value('ll_connected')==='1'?'Camera connected':'',valid==='1'?'Target detected':valid==='0'?'No valid target':'',valid==='1'&&value('ll_fiducial_id')?'Tag '+value('ll_fiducial_id'):'',valid==='1'?'Offset X '+(value('ll_tx')||'—')+' · Y '+(value('ll_ty')||'—'):'',age!==''&&+age>=0?'Result age '+age+' ms':''].filter(Boolean).join('  ·  ');
 }
 $('retry').onclick=()=>{$('video').src='http://'+$('host').value.trim() + ':' + cameraPort + '/?retry='+Date.now();showCamera();};
+$('openLimelight').onclick=()=>invoke('open_limelight_web_ui').then(()=>notify('')).catch(notify);
 $('record').onclick=async()=>{try{await invoke('record',{enabled:!recordOn});recordOn=!recordOn;notify('');}catch(e){notify(e);}};
 $('logs').onclick=()=>invoke('open_runs').catch(notify);
 async function poll(id){

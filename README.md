@@ -60,7 +60,7 @@ diag_1793259000_1793259000123_1.1793259001456.mkv
 ## Limelight preview and recording
 
 1. In the OpMode, start the Limelight tunnels and pass the tunnel manager to `SchemaDiagBus` so the dashboard receives its preview and recording ports.
-2. Open **Camera** to see the preview. The app uses the robot IP you connected to. The standard ports are `5800` for preview and `5802` for the raw stream.
+2. Open **Camera** to see the preview. Click **Open Limelight web UI** to open the tunneled camera interface in your default browser. The app uses the robot IP you connected to, with port `5800` for preview, `5801` for the web UI, and `5802` for the raw stream.
 3. To save video, install FFmpeg on the laptop and make sure the desktop app can find `ffmpeg` on its `PATH`. Click **Record raw video**. If telemetry has not arrived yet, the app waits for the first CSV to open.
 4. When the status shows **Recording**, the app is writing the raw video stream to disk. Click **Stop recording**, then **Open runs folder** to find the Matroska (`.mkv`) clip beside its CSV. If the run ID changes while recording, the app starts a new clip.
 

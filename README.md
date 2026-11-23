@@ -35,6 +35,8 @@ This recording shows live motor benchmark telemetry, including power, shaft spee
 
 ![Live telemetry plots updating during a motor benchmark](docs/diagnostics-demo.gif)
 
+![EclipseDashboard showing the live Limelight preview and camera telemetry graphs](docs/limelight.jpg)
+
 ## What the robot needs
 
 The OpMode must start DiagServer and publish telemetry. To enable automatic layout discovery, include the library in `TeamCode/build.gradle` and deploy TeamCode to the robot. [DiagServer setup and examples](https://github.com/Tawasaw/DiagServer)
